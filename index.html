@@ -1,0 +1,982 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!--
+      Personal Website Template (GitHub Pages)
+      Replace placeholder text like [Your Name], [Email], etc.
+      Put this file in your repo as: index.html
+    -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>[Your Name] | Babson College Senior</title>
+    <meta
+      name="description"
+      content="[Your Name] — Babson College Senior showcasing projects in product, strategy, data, and entrepreneurship."
+    />
+
+    <!-- Open Graph (nice previews when you share a link) -->
+    <meta property="og:title" content="[Your Name] | Portfolio" />
+    <meta
+      property="og:description"
+      content="Babson College Senior — projects, experience, and contact."
+    />
+    <meta property="og:type" content="website" />
+    <!-- Optional: Add a social preview image later -->
+    <!-- <meta property="og:image" content="https://yourdomain.com/preview.png" /> -->
+
+    <link rel="icon" href="data:," />
+
+    <style>
+      :root {
+        --bg: #0b1220;
+        --panel: rgba(255, 255, 255, 0.06);
+        --text: rgba(255, 255, 255, 0.92);
+        --muted: rgba(255, 255, 255, 0.70);
+        --border: rgba(255, 255, 255, 0.12);
+        --shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+
+        --accent: #7c3aed; /* violet */
+        --accent2: #22c55e; /* green */
+        --warn: #f59e0b;
+
+        --radius: 18px;
+        --max: 1080px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+          Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        background: radial-gradient(
+            1200px 700px at 20% 10%,
+            rgba(124, 58, 237, 0.22),
+            transparent 60%
+          ),
+          radial-gradient(
+            1000px 600px at 80% 0%,
+            rgba(34, 197, 94, 0.16),
+            transparent 60%
+          ),
+          radial-gradient(
+            900px 600px at 70% 90%,
+            rgba(245, 158, 11, 0.12),
+            transparent 60%
+          ),
+          var(--bg);
+        color: var(--text);
+        line-height: 1.5;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .container {
+        max-width: var(--max);
+        margin: 0 auto;
+        padding: 28px 18px 64px;
+      }
+
+      /* Top nav */
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        background: rgba(11, 18, 32, 0.55);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .nav-inner {
+        max-width: var(--max);
+        margin: 0 auto;
+        padding: 14px 18px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 700;
+        letter-spacing: 0.3px;
+      }
+
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.18);
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .nav-links a {
+        color: var(--muted);
+        font-size: 14px;
+        padding: 8px 10px;
+        border-radius: 12px;
+        transition: 150ms ease;
+      }
+
+      .nav-links a:hover {
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.06);
+      }
+
+      .cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 14px;
+        border-radius: 14px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--text);
+        font-weight: 600;
+        font-size: 14px;
+        transition: 150ms ease;
+      }
+
+      .cta:hover {
+        transform: translateY(-1px);
+        border-color: rgba(255, 255, 255, 0.18);
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .cta .pill {
+        font-size: 12px;
+        padding: 4px 8px;
+        border-radius: 999px;
+        background: rgba(124, 58, 237, 0.18);
+        border: 1px solid rgba(124, 58, 237, 0.35);
+        color: rgba(255, 255, 255, 0.92);
+      }
+
+      /* Hero */
+      .hero {
+        padding: 38px 0 18px;
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 18px;
+        align-items: stretch;
+      }
+
+      @media (max-width: 860px) {
+        .hero {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+      }
+
+      .hero-main {
+        padding: 26px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-main::before {
+        content: "";
+        position: absolute;
+        inset: -40%;
+        background: radial-gradient(
+          circle at 30% 30%,
+          rgba(124, 58, 237, 0.22),
+          transparent 55%
+        );
+        pointer-events: none;
+      }
+
+      .kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 12px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--muted);
+        font-size: 13px;
+        position: relative;
+      }
+
+      .kicker strong {
+        color: rgba(255, 255, 255, 0.88);
+        font-weight: 700;
+      }
+
+      h1 {
+        margin: 16px 0 10px;
+        font-size: clamp(32px, 4vw, 44px);
+        line-height: 1.1;
+        position: relative;
+      }
+
+      .subtitle {
+        margin: 0;
+        color: var(--muted);
+        font-size: 16px;
+        max-width: 65ch;
+        position: relative;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 18px;
+        position: relative;
+      }
+
+      .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 12px 14px;
+        border-radius: 16px;
+        border: 1px solid rgba(124, 58, 237, 0.45);
+        background: linear-gradient(
+          135deg,
+          rgba(124, 58, 237, 0.95),
+          rgba(34, 197, 94, 0.85)
+        );
+        color: white;
+        font-weight: 700;
+        font-size: 14px;
+        transition: 150ms ease;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-1px);
+        filter: saturate(1.05);
+      }
+
+      .btn-ghost {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 12px 14px;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--text);
+        font-weight: 700;
+        font-size: 14px;
+        transition: 150ms ease;
+      }
+
+      .btn-ghost:hover {
+        transform: translateY(-1px);
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .meta-grid {
+        padding: 18px;
+        display: grid;
+        gap: 12px;
+        align-content: start;
+      }
+
+      .meta-item {
+        padding: 14px;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.10);
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      .meta-label {
+        font-size: 12px;
+        color: var(--muted);
+        margin-bottom: 6px;
+      }
+
+      .meta-value {
+        font-size: 14px;
+        font-weight: 650;
+      }
+
+      .chips {
+        margin-top: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .chip {
+        font-size: 12px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: rgba(255, 255, 255, 0.05);
+        color: rgba(255, 255, 255, 0.86);
+      }
+
+      /* Sections */
+      section {
+        margin-top: 18px;
+      }
+
+      .section-card {
+        padding: 22px;
+      }
+
+      .section-title {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+
+      .section-title h2 {
+        margin: 0;
+        font-size: 18px;
+        letter-spacing: 0.2px;
+      }
+
+      .section-title p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      @media (max-width: 860px) {
+        .grid-2 {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .project {
+        padding: 16px;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.10);
+        background: rgba(255, 255, 255, 0.04);
+        transition: 160ms ease;
+      }
+
+      .project:hover {
+        transform: translateY(-2px);
+        background: rgba(255, 255, 255, 0.06);
+        border-color: rgba(255, 255, 255, 0.16);
+      }
+
+      .project-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .project h3 {
+        margin: 0;
+        font-size: 15px;
+      }
+
+      .project p {
+        margin: 8px 0 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .tagrow {
+        margin-top: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .tag {
+        font-size: 11px;
+        padding: 5px 8px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.10);
+        background: rgba(255, 255, 255, 0.04);
+        color: rgba(255, 255, 255, 0.84);
+      }
+
+      .links {
+        margin-top: 12px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .small-link {
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.90);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: rgba(255, 255, 255, 0.04);
+        padding: 8px 10px;
+        border-radius: 12px;
+        transition: 150ms ease;
+      }
+
+      .small-link:hover {
+        background: rgba(255, 255, 255, 0.07);
+        transform: translateY(-1px);
+      }
+
+      .timeline {
+        display: grid;
+        gap: 12px;
+      }
+
+      .role {
+        padding: 16px;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.10);
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      .role-head {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .role h3 {
+        margin: 0;
+        font-size: 15px;
+      }
+
+      .role .when {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      ul.clean {
+        margin: 10px 0 0;
+        padding-left: 18px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .skill-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+      }
+
+      @media (max-width: 860px) {
+        .skill-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 480px) {
+        .skill-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .skill {
+        padding: 14px;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.10);
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      .skill .name {
+        font-weight: 700;
+        font-size: 13px;
+        margin: 0;
+      }
+
+      .skill .desc {
+        margin: 6px 0 0;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      /* Footer */
+      footer {
+        margin-top: 20px;
+        color: var(--muted);
+        font-size: 13px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .social {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .social a {
+        font-size: 13px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: rgba(255, 255, 255, 0.04);
+        padding: 8px 10px;
+        border-radius: 12px;
+        transition: 150ms ease;
+      }
+
+      .social a:hover {
+        background: rgba(255, 255, 255, 0.07);
+        transform: translateY(-1px);
+      }
+
+      /* Utility */
+      .muted {
+        color: var(--muted);
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Sticky Navigation -->
+    <header class="nav">
+      <div class="nav-inner">
+        <a class="brand" href="#top" aria-label="Go to top">
+          <span class="dot" aria-hidden="true"></span>
+          <span>[Your Name]</span>
+        </a>
+
+        <nav class="nav-links" aria-label="Primary navigation">
+          <a href="#projects">Projects</a>
+          <a href="#experience">Experience</a>
+          <a href="#skills">Skills</a>
+          <a href="#contact">Contact</a>
+
+          <!-- Resume: put resume.pdf in the same repo or replace with Google Drive link -->
+          <a class="cta" href="resume.pdf" target="_blank" rel="noopener">
+            <span class="pill">PDF</span> Resume
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="top" class="container">
+      <!-- HERO -->
+      <section class="hero" aria-label="Introduction">
+        <div class="card hero-main">
+          <div class="kicker">
+            <strong>Babson College Senior</strong>
+            <span class="muted">• seeking full-time roles in 2026</span>
+          </div>
+
+          <h1>
+            I build projects at the intersection of
+            <span style="color: rgba(255,255,255,0.98)">product</span>,
+            <span style="color: rgba(255,255,255,0.98)">strategy</span>, and
+            <span style="color: rgba(255,255,255,0.98)">data</span>.
+          </h1>
+
+          <p class="subtitle">
+            I’m <strong>[Your Name]</strong>, a senior at Babson College. I like
+            turning messy problems into clear plans, clean products, and results
+            that matter. Below are a few projects I’ve shipped and what I’m
+            working on now.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn-primary" href="#projects">
+              View Projects <span aria-hidden="true">→</span>
+            </a>
+            <a class="btn-ghost" href="#contact">
+              Contact Me <span aria-hidden="true">✉️</span>
+            </a>
+            <!-- OPTIONAL: Link to LinkedIn / GitHub -->
+            <a
+              class="btn-ghost"
+              href="https://www.linkedin.com/in/[your-link]/"
+              target="_blank"
+              rel="noopener"
+            >
+              LinkedIn <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </div>
+
+        <aside class="card meta-grid" aria-label="Quick info">
+          <div class="meta-item">
+            <div class="meta-label">Focus</div>
+            <div class="meta-value">Product • Strategy • Analytics</div>
+            <div class="chips" aria-label="Focus chips">
+              <span class="chip">Go-to-Market</span>
+              <span class="chip">User Research</span>
+              <span class="chip">Experimentation</span>
+              <span class="chip">Dashboards</span>
+            </div>
+          </div>
+
+          <div class="meta-item">
+            <div class="meta-label">Currently</div>
+            <div class="meta-value">Open to internships & full-time roles</div>
+            <div class="chips">
+              <span class="chip">Boston</span>
+              <span class="chip">Remote</span>
+              <span class="chip">Summer 2026</span>
+            </div>
+          </div>
+
+          <div class="meta-item">
+            <div class="meta-label">Best way to reach me</div>
+            <div class="meta-value">
+              <a href="mailto:[youremail]@[domain].com">[youremail]@[domain].com</a>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <!-- ABOUT -->
+      <section class="card section-card" id="about" aria-label="About">
+        <div class="section-title">
+          <h2>About</h2>
+          <p>What I do + what I’m looking for</p>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <p class="muted" style="margin-top: 0">
+              I’m a Babson senior interested in roles where I can help teams
+              make better decisions with data, build products people love, and
+              move projects from idea → execution.
+            </p>
+            <p class="muted" style="margin-bottom: 0">
+              I’m especially excited about <strong>product management</strong>,
+              <strong>strategy</strong>, <strong>growth</strong>, and
+              <strong>business analytics</strong>.
+            </p>
+          </div>
+
+          <div>
+            <p class="muted" style="margin-top: 0">
+              <strong>What I bring:</strong> structured thinking, strong writing,
+              clean visuals, and a bias toward action. I’m comfortable owning
+              ambiguous projects end-to-end.
+            </p>
+            <p class="muted" style="margin-bottom: 0">
+              Outside of work: <span aria-hidden="true">🏀</span> [sports],
+              <span aria-hidden="true">☕</span> [coffee], and
+              <span aria-hidden="true">🎧</span> [music].
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROJECTS -->
+      <section class="card section-card" id="projects" aria-label="Projects">
+        <div class="section-title">
+          <h2>Projects</h2>
+          <p>Selected work (replace these with your real projects)</p>
+        </div>
+
+        <div class="grid-2">
+          <!-- Project 1 -->
+          <article class="project">
+            <div class="project-top">
+              <div>
+                <h3>Project Name #1 — Product/Startup</h3>
+                <p>
+                  One sentence on the problem, what you built, and the outcome.
+                  Keep it results-focused.
+                </p>
+              </div>
+              <span class="tag" title="Highlight">⭐ Featured</span>
+            </div>
+
+            <div class="tagrow" aria-label="Technologies used">
+              <span class="tag">Market Research</span>
+              <span class="tag">Pitch Deck</span>
+              <span class="tag">Go-to-Market</span>
+            </div>
+
+            <div class="links">
+              <a class="small-link" href="#" target="_blank" rel="noopener">
+                Live Demo ↗
+              </a>
+              <a class="small-link" href="#" target="_blank" rel="noopener">
+                Case Study ↗
+              </a>
+            </div>
+          </article>
+
+          <!-- Project 2 -->
+          <article class="project">
+            <div class="project-top">
+              <div>
+                <h3>Project Name #2 — Data/Analytics</h3>
+                <p>
+                  Example: Analyzed user behavior, built dashboard, recommended
+                  next steps that improved retention / conversion.
+                </p>
+              </div>
+              <span class="tag">📈 Impact</span>
+            </div>
+
+            <div class="tagrow">
+              <span class="tag">SQL</span>
+              <span class="tag">Python</span>
+              <span class="tag">Tableau</span>
+            </div>
+
+            <div class="links">
+              <a class="small-link" href="#" target="_blank" rel="noopener">
+                GitHub ↗
+              </a>
+              <a class="small-link" href="#" target="_blank" rel="noopener">
+                Read More ↗
+              </a>
+            </div>
+          </article>
+
+          <!-- Project 3 -->
+          <article class="project">
+            <div class="project-top">
+              <div>
+                <h3>Project Name #3 — Strategy</h3>
+                <p>
+                  Example: Competitive landscape + pricing analysis + rollout
+                  plan for a new feature.
+                </p>
+              </div>
+              <span class="tag">🧠 Strategy</span>
+            </div>
+
+            <div class="tagrow">
+              <span class="tag">Competitive Analysis</span>
+              <span class="tag">Pricing</span>
+              <span class="tag">Roadmap</span>
+            </div>
+
+            <div class="links">
+              <a class="small-link" href="#" target="_blank" rel="noopener">
+                Slides ↗
+              </a>
+              <a class="small-link" href="#" target="_blank" rel="noopener">
+                Summary ↗
+              </a>
+            </div>
+          </article>
+
+          <!-- Project 4 -->
+          <article class="project">
+            <div class="project-top">
+              <div>
+                <h3>Project Name #4 — Build Something</h3>
+                <p>
+                  Example: Built a web app / tool, shipped an MVP, gathered user
+                  feedback, iterated.
+                </p>
+              </div>
+              <span class="tag">🛠️ Build</span>
+            </div>
+
+            <div class="tagrow">
+              <span class="tag">HTML/CSS</span>
+              <span class="tag">JavaScript</span>
+              <span class="tag">APIs</span>
+            </div>
+
+            <div class="links">
+              <a class="small-link" href="#" target="_blank" rel="noopener">
+                GitHub ↗
+              </a>
+              <a class="small-link" href="#" target="_blank" rel="noopener">
+                Demo ↗
+              </a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- EXPERIENCE -->
+      <section class="card section-card" id="experience" aria-label="Experience">
+        <div class="section-title">
+          <h2>Experience</h2>
+          <p>Keep bullets short and metric-driven</p>
+        </div>
+
+        <div class="timeline">
+          <article class="role">
+            <div class="role-head">
+              <h3>[Company] — [Role Title]</h3>
+              <div class="when">[Month YYYY] – [Month YYYY]</div>
+            </div>
+            <ul class="clean">
+              <li>Did X by doing Y → resulted in Z (add a metric if you can).</li>
+              <li>Owned [project] end-to-end across research, execution, and presentation.</li>
+              <li>Collaborated with cross-functional partners (design/eng/ops).</li>
+            </ul>
+          </article>
+
+          <article class="role">
+            <div class="role-head">
+              <h3>[Organization] — [Leadership / Club / TA]</h3>
+              <div class="when">[Month YYYY] – Present</div>
+            </div>
+            <ul class="clean">
+              <li>Built a repeatable process that improved speed/quality.</li>
+              <li>Led a team of [#] or managed stakeholders across groups.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <!-- SKILLS -->
+      <section class="card section-card" id="skills" aria-label="Skills">
+        <div class="section-title">
+          <h2>Skills</h2>
+          <p>Tools and strengths (edit to match your real stack)</p>
+        </div>
+
+        <div class="skill-grid">
+          <div class="skill">
+            <p class="name">Product</p>
+            <p class="desc">PRDs, roadmaps, user stories, prioritization</p>
+          </div>
+          <div class="skill">
+            <p class="name">Analytics</p>
+            <p class="desc">SQL, Python, dashboards, cohort analysis</p>
+          </div>
+          <div class="skill">
+            <p class="name">Research</p>
+            <p class="desc">Interviews, surveys, synthesis, insights</p>
+          </div>
+          <div class="skill">
+            <p class="name">Strategy</p>
+            <p class="desc">Market sizing, competitive analysis, GTM</p>
+          </div>
+          <div class="skill">
+            <p class="name">Communication</p>
+            <p class="desc">Executive summaries, decks, storytelling</p>
+          </div>
+          <div class="skill">
+            <p class="name">Tech</p>
+            <p class="desc">HTML/CSS, JavaScript, GitHub Pages</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section class="card section-card" id="contact" aria-label="Contact">
+        <div class="section-title">
+          <h2>Contact</h2>
+          <p>Let’s talk</p>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <p class="muted" style="margin-top: 0">
+              If you’re hiring for product/strategy/analytics roles (or want to
+              collaborate), I’d love to connect.
+            </p>
+
+            <div class="links" style="margin-top: 14px">
+              <a class="btn-primary" href="mailto:[youremail]@[domain].com">
+                Email Me ✉️
+              </a>
+              <a
+                class="btn-ghost"
+                href="https://www.linkedin.com/in/[your-link]/"
+                target="_blank"
+                rel="noopener"
+              >
+                LinkedIn ↗
+              </a>
+              <a
+                class="btn-ghost"
+                href="https://github.com/[your-github]/"
+                target="_blank"
+                rel="noopener"
+              >
+                GitHub ↗
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <div class="meta-item" style="height: 100%">
+              <div class="meta-label">Quick details</div>
+              <div class="meta-value">Boston • Babson College</div>
+              <div class="chips" style="margin-top: 10px">
+                <span class="chip">Graduating: 2026</span>
+                <span class="chip">Open to: PM / Strategy / Analytics</span>
+                <span class="chip">Availability: [Full-time / Internship]</span>
+              </div>
+
+              <p class="muted" style="margin: 12px 0 0; font-size: 12px">
+                Tip: Put a <strong>resume.pdf</strong> in your repo so the Resume
+                button always works.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <div>
+          © <span id="year"></span> [Your Name] • Built with GitHub Pages
+        </div>
+        <div class="social" aria-label="Social links">
+          <a href="mailto:[youremail]@[domain].com">Email</a>
+          <a href="https://www.linkedin.com/in/[your-link]/" target="_blank" rel="noopener"
+            >LinkedIn</a
+          >
+          <a href="https://github.com/[your-github]/" target="_blank" rel="noopener"
+            >GitHub</a
+          >
+        </div>
+      </footer>
+    </main>
+
+    <script>
+      // tiny quality-of-life script: update year automatically
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
