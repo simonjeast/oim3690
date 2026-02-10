@@ -4,13 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simon East About Me</title>
-    <h1>Simon East</h1>
-    <p>I am a Senior at <a href="https://www.babson.edu" target="_blank">Babson College</a></p>
-    <p>This is my about me, my favorite kind of dog is a Samoyed, pictured here! 
-    <img src="https://www.akc.org/wp-content/uploads/2017/11/Samoyed-standing-in-the-forest.jpg" alt="Samoyed Dog" width="500" height="500">
-    </p>
+    <meta name="description" content="About Simon East — senior at Babson College, Samoyed enthusiast.">
+    <meta name="author" content="Simon East">
+    <meta name="keywords" content="Simon East, Babson College, Samoyed, about me">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="stylesheet" href="styles.css">
+    <meta name="theme-color" content="#ffffff">
 </head>
 <body>
-    
+    <header>
+        <h1>Simon East</h1>
+        <p>I am a Senior at <a href="https://www.babson.edu" target="_blank" rel="noopener noreferrer">Babson College</a></p>
+    </header>
+
+    <nav aria-label="Primary">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="demo.html">Demo</a></li>
+            <li><a href="about-me.html">About Me</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section aria-labelledby="about-heading">
+            <h2 id="about-heading">About Me</h2>
+            <p>This is my about me. My favorite kind of dog is a Samoyed, pictured here:</p>
+            <figure>
+                <img src="https://www.akc.org/wp-content/uploads/2017/11/Samoyed-standing-in-the-forest.jpg" alt="A white Samoyed dog standing in a forest" width="500" height="500">
+                <figcaption>Samoyed — a fluffy, friendly working dog.</figcaption>
+            </figure>
+        </section>
+
+        <aside aria-labelledby="quick-facts">
+            <h3 id="quick-facts">Quick Facts</h3>
+            <ul>
+                <li>Class: Senior</li>
+                <li>College: <a href="https://www.babson.edu" target="_blank" rel="noopener noreferrer">Babson College</a></li>
+                <li>Favorite dog: Samoyed</li>
+            </ul>
+        </aside>
+    </main>
+
+    <footer>
+        <address>
+            Attends Babson College — contact via the site repository.
+        </address>
+        <p>Page last updated <time datetime="2026-02">February 2026</time>.</p>
+    </footer>
 </body>
 </html>
