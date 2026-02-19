@@ -1,0 +1,43 @@
+/* Import a Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+:root {
+	--accent: #2b6cb0;
+	--gap: 1rem;
+	--radius: 8px;
+}
+
+/* Base layout and typography */
+body {
+	font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+	margin: 2rem;
+	color: #111;
+	line-height: 1.6;
+	background: #fff;
+}
+
+h1 { margin: 0 0 0.5rem 0; }
+h2 { margin: 0 0 0.5rem 0; }
+p  { margin: 0.5rem 0; }
+
+/* Project sections (targets top-level divs used in projects.html) */
+body > div {
+	padding: 1rem;
+	margin: 1rem 0;
+	border: 2px solid var(--accent); /* default: solid */
+	border-radius: var(--radius);
+	box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+/* Alternate border styles: add class "dashed" or "dotted" to the section div */
+body > div.dashed { border-style: dashed; }
+body > div.dotted { border-style: dotted; }
+
+/* Utility project card class if you prefer explicit markup */
+.project {
+	padding: 0.75rem;
+	margin-bottom: 0.75rem;
+	border-radius: 6px;
+	border: 1px solid #ddd;
+}
+
