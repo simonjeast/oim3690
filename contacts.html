@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact | Simon East</title>
+    <link rel="stylesheet" href="css/contact.css" />
+  </head>
+  <body>
+    <main class="contact-page">
+      <section class="contact-card" aria-labelledby="contact-heading">
+        <h1 id="contact-heading">Contact Me</h1>
+        <p class="intro">Have a question or want to connect? Send a message below.</p>
+
+        <form class="contact-form" action="#" method="post">
+          <div class="form-row">
+            <div class="field-group">
+              <label for="name">Name</label>
+              <input id="name" name="name" type="text" required />
+            </div>
+
+            <div class="field-group">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" required />
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="6" required></textarea>
+          </div>
+
+          <button type="submit">Send Message</button>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>

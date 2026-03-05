@@ -6,3 +6,7 @@ Spring 2026 course repository
 
 ## Links
 - (https://simonjeast.github.io)
+
+## Projects
+- [Personal Website][https://simonjeast.github.io]
+- [Mini Project][https://github.com/simonjeast/LiteraryHour]

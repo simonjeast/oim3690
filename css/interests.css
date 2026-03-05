@@ -10,19 +10,96 @@
   --transition: all 0.3s ease;
 }
 
+/* Keyframe Animations */
+@keyframes cardGlow {
+  0% {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  50% {
+    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
+  }
+  100% {
+    box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3), inset 0 0 20px rgba(37, 99, 235, 0.05);
+  }
+}
+
+@keyframes titleSlide {
+  from {
+    transform: translateX(-10px);
+    opacity: 0.7;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes contentFade {
+  from {
+    opacity: 0.8;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes bounce {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 /* General Styles */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: var(--text-color);
-  background-color: var(--light-bg);
+  background: linear-gradient(135deg, var(--light-bg) 0%, #ffffff 100%);
   margin: 0;
-  padding: 20px;
+  padding: 0;
+  min-height: 100vh;
+}
+
+.page-wrapper {
+  padding: 40px 20px;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 60px;
+  animation: fadeInDown 0.8s ease-out;
 }
 
 h1 {
   color: var(--primary-color);
-  text-align: center;
-  margin-bottom: 40px;
+  margin: 0;
   font-size: 2.5em;
   transition: var(--transition);
 }
@@ -30,6 +107,14 @@ h1 {
 h1:hover {
   color: var(--secondary-color);
   transform: scale(1.05);
+}
+
+.subtitle {
+  color: #6b7280;
+  font-size: 1.1em;
+  margin: 10px 0 0 0;
+  font-weight: 300;
+  letter-spacing: 0.5px;
 }
 
 /* Container for Interest Cards */
@@ -44,17 +129,58 @@ h1:hover {
 /* Interest Card Styles */
 .interest-card {
   background-color: white;
-  padding: 25px;
-  border-radius: 10px;
+  padding: 30px;
+  border-radius: 12px;
   border-left: 5px solid var(--primary-color);
   box-shadow: var(--shadow);
   transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.icon-badge {
+  font-size: 2.5em;
+  margin-bottom: 15px;
+  display: inline-block;
+  animation: float 3s ease-in-out infinite;
+}
+
+.interest-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(245, 158, 11, 0.05) 100%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
 }
 
 .interest-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  transform: translateY(-8px) scale(1.02);
+  animation: cardGlow 0.6s ease forwards;
   border-left-color: var(--accent-color);
+  background-color: #f8faff;
+}
+
+.interest-card:hover::before {
+  opacity: 1;
+}
+
+.interest-card:hover .section-title {
+  animation: titleSlide 0.5s ease-out;
+}
+
+.interest-card:hover p {
+  animation: contentFade 0.5s ease-out 0.1s backwards;
+}
+
+.interest-card:hover .icon-badge {
+  animation: bounce 0.6s ease-out;
 }
 
 /* Section Title Styles */
@@ -63,7 +189,7 @@ h1:hover {
   font-size: 1.5em;
   margin-top: 0;
   margin-bottom: 15px;
-  transition: var(--transition);
+  transition: color 0.3s ease;
 }
 
 .interest-card:hover .section-title {
@@ -91,12 +217,40 @@ h1:hover {
 p {
   line-height: 1.6;
   color: var(--text-color);
-  margin: 0;
-  transition: var(--transition);
+  margin: 0 0 20px 0;
+  transition: color 0.4s ease;
+  flex-grow: 1;
 }
 
 .interest-card:hover p {
   color: var(--secondary-color);
+}
+
+/* Card Footer with Tags */
+.card-footer {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: auto;
+  padding-top: 15px;
+  border-top: 1px solid var(--border-color);
+}
+
+.tag {
+  display: inline-block;
+  background-color: var(--light-bg);
+  color: var(--primary-color);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.85em;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.interest-card:hover .tag {
+  background-color: var(--primary-color);
+  color: white;
+  transform: translateY(-2px);
 }
 
 /* Responsive Design */
@@ -111,5 +265,9 @@ p {
 
   .section-title {
     font-size: 1.25em;
+  }
+
+  .icon-badge {
+    font-size: 2em;
   }
 }
