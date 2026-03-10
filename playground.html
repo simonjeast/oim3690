@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Playground | Simon East</title>
+    <meta name="description" content="HTML playground with media embeds, FAQ, and canvas drawing." />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232246d2'/%3E%3Ccircle cx='16' cy='16' r='7' fill='white'/%3E%3C/svg%3E"
+    />
+    <style>
+      :root {
+        --bg: #f7f9fc;
+        --surface: #ffffff;
+        --text: #1d2633;
+        --muted: #5a6777;
+        --line: #e3e8ef;
+        --accent: #2246d2;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+        color: var(--text);
+        background: var(--bg);
+        line-height: 1.6;
+      }
+
+      .container {
+        width: min(980px, 92%);
+        margin: 0 auto;
+        padding: 2rem 0 3rem;
+      }
+
+      h1,
+      h2 {
+        margin: 0;
+        line-height: 1.2;
+      }
+
+      h1 {
+        font-size: clamp(1.8rem, 3vw, 2.4rem);
+      }
+
+      .intro {
+        margin-top: 0.6rem;
+        color: var(--muted);
+      }
+
+      .grid {
+        margin-top: 1.2rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+        gap: 0.9rem;
+      }
+
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 1rem;
+      }
+
+      .card h2 {
+        font-size: 1.1rem;
+      }
+
+      iframe,
+      video,
+      audio,
+      canvas {
+        width: 100%;
+        border-radius: 10px;
+        border: 1px solid var(--line);
+        background: #fff;
+      }
+
+      iframe {
+        aspect-ratio: 16 / 9;
+      }
+
+      .map {
+        aspect-ratio: 4 / 3;
+      }
+
+      details {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 0.7rem 0.8rem;
+        background: #fbfcff;
+      }
+
+      details + details {
+        margin-top: 0.6rem;
+      }
+
+      summary {
+        cursor: pointer;
+        font-weight: 600;
+      }
+
+      details p {
+        margin: 0.5rem 0 0;
+        color: var(--muted);
+      }
+
+      .back-link {
+        display: inline-block;
+        margin-top: 1rem;
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .back-link:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      <h1>HTML Playground</h1>
+      <p class="intro">This page demonstrates all requested tags and embeds in one place.</p>
+
+      <div class="grid">
+        <section class="card" aria-labelledby="youtube-title">
+          <h2 id="youtube-title">YouTube Embed (iframe)</h2>
+          <iframe
+            src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ"
+            title="YouTube video player"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+          ></iframe>
+        </section>
+
+        <section class="card" aria-labelledby="map-title">
+          <h2 id="map-title">Google Map: Babson Campus</h2>
+          <iframe
+            class="map"
+            src="https://www.google.com/maps?q=Babson%20College%2C%20Wellesley%2C%20MA&output=embed"
+            title="Google Map showing Babson College"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </section>
+
+        <section class="card" aria-labelledby="media-title">
+          <h2 id="media-title">Audio + Video Controls</h2>
+          <video controls preload="metadata" poster="https://dummyimage.com/640x360/e7ecf7/445/Video+Sample">
+            <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+          <div style="margin-top: 0.8rem">
+            <audio controls preload="metadata">
+              <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3" type="audio/mpeg" />
+              Your browser does not support the audio element.
+            </audio>
+          </div>
+        </section>
+
+        <section class="card" aria-labelledby="faq-title">
+          <h2 id="faq-title">Collapsible FAQ (details/summary)</h2>
+          <details>
+            <summary>What is this page for?</summary>
+            <p>It is a sandbox to practice HTML media, semantic tags, and simple interactivity.</p>
+          </details>
+          <details>
+            <summary>Do these embeds need JavaScript?</summary>
+            <p>No. The YouTube, map, audio/video, and FAQ all work with standard HTML tags.</p>
+          </details>
+          <details>
+            <summary>Can I customize this later?</summary>
+            <p>Yes. Swap URLs, change canvas art, and keep this page as your front-end playground.</p>
+          </details>
+        </section>
+
+        <section class="card" aria-labelledby="canvas-title" style="grid-column: 1 / -1">
+          <h2 id="canvas-title">Canvas Drawing</h2>
+          <canvas id="scene" width="900" height="300" aria-label="Canvas landscape drawing"></canvas>
+          <p class="intro" style="margin-top: 0.6rem">
+            The script draws a sky, sun, hills, a house, and trees.
+          </p>
+        </section>
+      </div>
+
+      <a class="back-link" href="index.html">← Back to Home</a>
+    </main>
+
+    <script>
+      const canvas = document.getElementById("scene");
+      const ctx = canvas.getContext("2d");
+
+      const sky = ctx.createLinearGradient(0, 0, 0, canvas.height);
+      sky.addColorStop(0, "#93c5fd");
+      sky.addColorStop(1, "#dbeafe");
+      ctx.fillStyle = sky;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = "#fde047";
+      ctx.beginPath();
+      ctx.arc(760, 70, 42, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = "#86efac";
+      ctx.beginPath();
+      ctx.moveTo(0, 220);
+      ctx.quadraticCurveTo(170, 150, 340, 220);
+      ctx.quadraticCurveTo(500, 280, 700, 220);
+      ctx.quadraticCurveTo(820, 180, 900, 220);
+      ctx.lineTo(900, 300);
+      ctx.lineTo(0, 300);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.fillStyle = "#94a3b8";
+      ctx.beginPath();
+      ctx.moveTo(20, 220);
+      ctx.quadraticCurveTo(130, 130, 260, 220);
+      ctx.quadraticCurveTo(360, 280, 460, 220);
+      ctx.quadraticCurveTo(600, 160, 750, 220);
+      ctx.lineTo(750, 300);
+      ctx.lineTo(20, 300);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.fillStyle = "#f1f5f9";
+      ctx.fillRect(360, 170, 130, 90);
+      ctx.fillStyle = "#b91c1c";
+      ctx.beginPath();
+      ctx.moveTo(350, 170);
+      ctx.lineTo(425, 120);
+      ctx.lineTo(500, 170);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.fillStyle = "#7c2d12";
+      ctx.fillRect(414, 210, 22, 50);
+
+      function drawTree(x, y) {
+        ctx.fillStyle = "#7c2d12";
+        ctx.fillRect(x - 5, y + 20, 10, 30);
+        ctx.fillStyle = "#166534";
+        ctx.beginPath();
+        ctx.arc(x, y, 24, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      drawTree(300, 185);
+      drawTree(540, 190);
+      drawTree(610, 170);
+    </script>
+  </body>
+</html>
