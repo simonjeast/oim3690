@@ -5,7 +5,7 @@ Spring 2026 course repository
 - Name: Simon East
 
 ## Links
-- (https://simonjeast.github.io)
+- (https://simonjeast.github.io/oim3690)
 
 ## Projects
 - [Personal Website][https://simonjeast.github.io]
