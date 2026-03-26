@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Greeting Generator</title>
+  <style>
+    :root {
+      --bg-start: #f8fbff;
+      --bg-end: #d7ecff;
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --text: #1f2937;
+      --accent: #0e7490;
+      --shadow: 0 18px 40px rgba(14, 116, 144, 0.18);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      color: var(--text);
+      background: linear-gradient(140deg, var(--bg-start), var(--bg-end));
+      transition: background 400ms ease;
+    }
+
+    body[data-lang="en"] {
+      --bg-start: #f8fbff;
+      --bg-end: #d7ecff;
+      --accent: #0e7490;
+    }
+
+    body[data-lang="es"] {
+      --bg-start: #fff8f0;
+      --bg-end: #ffd9b8;
+      --accent: #b45309;
+    }
+
+    body[data-lang="zh"] {
+      --bg-start: #f2fff5;
+      --bg-end: #c8f5d0;
+      --accent: #166534;
+    }
+
+    .panel {
+      width: min(560px, 100%);
+      background: var(--card-bg);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+
+    h1 {
+      margin-top: 0;
+      margin-bottom: 14px;
+      font-size: clamp(1.7rem, 2vw + 1rem, 2.2rem);
+      letter-spacing: 0.02em;
+    }
+
+    .controls {
+      display: grid;
+      gap: 12px;
+    }
+
+    label {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    input,
+    select,
+    button {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid #cbd5e1;
+      font-size: 1rem;
+      padding: 12px 14px;
+      font: inherit;
+    }
+
+    button {
+      background: var(--accent);
+      color: #ffffff;
+      border: none;
+      cursor: pointer;
+      font-weight: 700;
+      transition: transform 160ms ease, filter 160ms ease;
+    }
+
+    button:hover {
+      filter: brightness(1.05);
+      transform: translateY(-2px);
+    }
+
+    #greeting {
+      min-height: 2em;
+      margin: 20px 0 0;
+      font-size: 1.25rem;
+      font-weight: 700;
+      opacity: 0;
+      transform: translateY(6px);
+    }
+
+    #greeting.show {
+      animation: popIn 420ms ease forwards;
+    }
+
+    @keyframes popIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+  </style>
+</head>
+<body data-lang="en">
+  <main class="panel">
+    <h1>Greeting Generator</h1>
+
+    <div class="controls">
+      <label for="nameInput">Your name</label>
+      <input id="nameInput" type="text" placeholder="Type your name" />
+
+      <label for="languageSelect">Language</label>
+      <select id="languageSelect">
+        <option value="en">English</option>
+        <option value="es">Spanish</option>
+        <option value="zh">Chinese</option>
+      </select>
+
+      <button id="greetBtn" type="button">Show Greeting</button>
+    </div>
+
+    <p id="greeting" aria-live="polite"></p>
+  </main>
+
+  <script>
+    const nameInput = document.querySelector("#nameInput");
+    const greetButton = document.querySelector("#greetBtn");
+    const greetingText = document.querySelector("#greeting");
+    const languageSelect = document.querySelector("#languageSelect");
+
+    const greetings = {
+      en: "Hello",
+      es: "Hola",
+      zh: "Ni hao"
+    };
+
+    function updateBackgroundColor() {
+      document.body.dataset.lang = languageSelect.value;
+    }
+
+    languageSelect.addEventListener("change", updateBackgroundColor);
+
+    greetButton.addEventListener("click", function () {
+      const userName = nameInput.value.trim();
+      const chosenLanguage = languageSelect.value;
+      const baseGreeting = greetings[chosenLanguage] || greetings.en;
+      const displayName = userName || "friend";
+
+      greetingText.textContent = `${baseGreeting}, ${displayName}!`;
+
+      greetingText.classList.remove("show");
+      void greetingText.offsetWidth;
+      greetingText.classList.add("show");
+
+      updateBackgroundColor();
+    });
+  </script>
+</body>
+</html>
