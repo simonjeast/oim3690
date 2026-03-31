@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+    <body>
+        <input type="number" id="x">
+        <input type="number" id="y">
+        <button>Calculate</button>
+        <p id="result"></p>
+        <script>
+            const x = document.getElementById("x");
+            const y = document.getElementById("y");
+            const button = document.querySelector("button");
+            const result = document.getElementById("result");
+
+            button.addEventListener("click", function () {
+                const sum = parseFloat(x.value) + parseFloat(y.value);
+                result.textContent = `The sum is: ${sum}`;
+
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Grade Calculator</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        font-family: "Segoe UI", Tahoma, sans-serif;
+        background: linear-gradient(160deg, #f0fdf4, #e0f2fe);
+      }
+
+      .card {
+        width: min(420px, 100%);
+        background: #ffffff;
+        border-radius: 14px;
+        padding: 24px;
+        box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+      }
+
+      h1 {
+        margin: 0 0 14px;
+        font-size: 1.6rem;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+      }
+
+      input,
+      button {
+        width: 100%;
+        font: inherit;
+        padding: 10px 12px;
+        border-radius: 10px;
+      }
+
+      input {
+        border: 1px solid #cbd5e1;
+        margin-bottom: 12px;
+      }
+
+      button {
+        border: none;
+        font-weight: 700;
+        color: #ffffff;
+        background: #0369a1;
+        cursor: pointer;
+      }
+
+      button:hover {
+        filter: brightness(1.05);
+      }
+
+      #result {
+        margin: 14px 0 0;
+        min-height: 1.7em;
+        font-weight: 700;
+        color: #0f172a;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <h1>Grade Calculator</h1>
+
+      <label for="scoreInput">Enter score (0-100)</label>
+      <input id="scoreInput" type="number" placeholder="e.g. 88" />
+
+      <button id="calculateBtn" type="button">Get Grade</button>
+      <p id="result" aria-live="polite"></p>
+    </main>
+
+    <script>
+      const scoreInput = document.querySelector("#scoreInput");
+      const calculateButton = document.querySelector("#calculateBtn");
+      const resultText = document.querySelector("#result");
+
+      function getGrade(score) {
+        if (score >= 90) {
+          return "A";
+        } else if (score >= 80) {
+          return "B";
+        } else if (score >= 70) {
+          return "C";
+        } else if (score >= 60) {
+          return "D";
+        }
+
+        return "F";
+      }
+
+      calculateButton.addEventListener("click", function () {
+        const rawValue = scoreInput.value;
+
+        if (rawValue.trim() === "") {
+          resultText.textContent = "Please enter a score";
+          resultText.style.color = "#0f172a";
+          return;
+        }
+
+        const score = Number(rawValue);
+
+        if (Number.isNaN(score) || score < 0 || score > 100) {
+          resultText.textContent = "Score must be 0-100";
+          resultText.style.color = "#0f172a";
+          return;
+        }
+
+        const grade = getGrade(score);
+        resultText.textContent = `Grade: ${grade}`;
+
+        if (grade === "A" || grade === "B") {
+          resultText.style.color = "#15803d";
+        } else if (grade === "D" || grade === "F") {
+          resultText.style.color = "#b91c1c";
+        } else {
+          resultText.style.color = "#0f172a";
+        }
+      });
+    </script>
+  </body>
+</html>
