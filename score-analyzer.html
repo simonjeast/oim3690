@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Score Analyzer</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 700px;
+        margin: 50px auto;
+        padding: 20px;
+        background: #f5f5f5;
+      }
+
+      h1 {
+        color: #333;
+        text-align: center;
+      }
+
+      .container {
+        background: white;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .scores-section {
+        background: #f9f9f9;
+        padding: 15px;
+        border-left: 4px solid #007cba;
+        margin-bottom: 30px;
+        border-radius: 4px;
+      }
+
+      .scores-section h3 {
+        margin-top: 0;
+        color: #007cba;
+      }
+
+      .scores-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .score-badge {
+        background: #007cba;
+        color: white;
+        padding: 8px 12px;
+        border-radius: 20px;
+        font-weight: bold;
+      }
+
+      .results {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      .result-item {
+        background: #f0f8ff;
+        padding: 20px;
+        border-radius: 6px;
+        border: 1px solid #007cba;
+        text-align: center;
+      }
+
+      .result-label {
+        color: #666;
+        font-size: 14px;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .result-value {
+        font-size: 32px;
+        font-weight: bold;
+        color: #007cba;
+      }
+
+      @media (max-width: 500px) {
+        .results {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>📊 Score Analyzer</h1>
+
+    <div class="container">
+      <div class="scores-section">
+        <h3>Scores</h3>
+        <div class="scores-list" id="scoresList"></div>
+      </div>
+
+      <div class="results">
+        <div class="result-item">
+          <div class="result-label">Total Scores</div>
+          <div class="result-value" id="totalScores">0</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">Average Score</div>
+          <div class="result-value" id="averageScore">0</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">Highest Score</div>
+          <div class="result-value" id="highestScore">0</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">Lowest Score</div>
+          <div class="result-value" id="lowestScore">0</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">Passing Scores</div>
+          <div class="result-value" id="passingCount">0</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">Passing Rate</div>
+          <div class="result-value" id="passingRate">0%</div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Hard-coded array of scores
+      const scores = [88, 72, 95, 63, 81, 56, 90];
+
+      // Display the scores
+      const scoresList = document.getElementById("scoresList");
+      for (let i = 0; i < scores.length; i++) {
+        const badge = document.createElement("div");
+        badge.className = "score-badge";
+        badge.textContent = scores[i];
+        scoresList.appendChild(badge);
+      }
+
+      // Calculate total number of scores
+      const totalScores = scores.length;
+      document.getElementById("totalScores").textContent = totalScores;
+
+      // Calculate average score
+      let sum = 0;
+      for (let i = 0; i < scores.length; i++) {
+        sum += scores[i];
+      }
+      const averageScore = (sum / scores.length).toFixed(1);
+      document.getElementById("averageScore").textContent = averageScore;
+
+      // Calculate highest score
+      let highest = scores[0];
+      for (let i = 0; i < scores.length; i++) {
+        if (scores[i] > highest) {
+          highest = scores[i];
+        }
+      }
+      document.getElementById("highestScore").textContent = highest;
+
+      // Calculate lowest score
+      let lowest = scores[0];
+      for (let i = 0; i < scores.length; i++) {
+        if (scores[i] < lowest) {
+          lowest = scores[i];
+        }
+      }
+      document.getElementById("lowestScore").textContent = lowest;
+
+      // Calculate number of passing scores (>= 60)
+      let passingCount = 0;
+      for (let i = 0; i < scores.length; i++) {
+        if (scores[i] >= 60) {
+          passingCount++;
+        }
+      }
+      document.getElementById("passingCount").textContent = passingCount;
+
+      // Calculate passing rate
+      const passingRate = ((passingCount / scores.length) * 100).toFixed(1);
+      document.getElementById("passingRate").textContent = passingRate + "%";
+
+      // Log results to console
+      console.log("📊 Score Analysis Results:");
+      console.log("Scores:", scores);
+      console.log("Total Scores:", totalScores);
+      console.log("Average Score:", averageScore);
+      console.log("Highest Score:", highest);
+      console.log("Lowest Score:", lowest);
+      console.log("Passing Scores:", passingCount);
+      console.log("Passing Rate:", passingRate + "%");
+    </script>
+  </body>
+</html>
