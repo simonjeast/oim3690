@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Loop Example: Star Rating</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			margin: 2rem;
+		}
+
+		#stars {
+			font-size: 2rem;
+			letter-spacing: 0.1rem;
+			color: #f59e0b;
+		}
+
+		.rating-controls {
+			margin-bottom: 1rem;
+		}
+
+		#rating-input {
+			width: 5rem;
+			margin-left: 0.5rem;
+			padding: 0.35rem 0.5rem;
+		}
+
+		#rating-button {
+			margin-top: 1rem;
+			padding: 0.6rem 1rem;
+			font-size: 1rem;
+			border: 1px solid #d1d5db;
+			border-radius: 0.5rem;
+			background-color: #f9fafb;
+			color: #111827;
+		}
+	</style>
+</head>
+<body>
+	<h1>Star Rating</h1>
+	<div class="rating-controls">
+		<label for="rating-input">Enter rating (0-5):</label>
+		<input id="rating-input" type="number" min="0" max="5" step="1" value="3" />
+	</div>
+	<p>Rating:</p>
+	<div id="stars" aria-label="3 out of 5 stars"></div>
+	<button id="rating-button" type="button">Rating shown: 3/5</button>
+
+	<script>
+		const container = document.querySelector('#stars');
+		const ratingInput = document.querySelector('#rating-input');
+		const ratingButton = document.querySelector('#rating-button');
+
+		function renderRating(rawValue) {
+			const parsedValue = Number.parseInt(rawValue, 10);
+			const rating = Number.isNaN(parsedValue) ? 0 : Math.min(5, Math.max(0, parsedValue));
+			let stars = '';
+
+			for (let i = 0; i < 5; i++) {
+				if (i < rating) {
+					stars += '★';
+				} else {
+					stars += '☆';
+				}
+			}
+
+			ratingInput.value = rating;
+			container.textContent = stars;
+			container.setAttribute('aria-label', `${rating} out of 5 stars`);
+			ratingButton.textContent = `Rating shown: ${rating}/5`;
+		}
+
+		ratingInput.addEventListener('input', () => {
+			renderRating(ratingInput.value);
+		});
+
+		renderRating(ratingInput.value);
+	</script>
+</body>
+</html>

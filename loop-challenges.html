@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loop Challenges</title>
+</head>
+<body>
+  <h1>Loop Challenges</h1>
+  <p id="source"></p>
+  <h2>Build a List</h2>
+  <ul id="number-list"></ul>
+
+  <h2>Sum It Up</h2>
+  <p id="sum-result"></p>
+
+  <h2>Find the Max</h2>
+  <p id="max-result"></p>
+
+  <h2>Count Positives</h2>
+  <p id="positives-result"></p>
+
+  <h2>Find Evens</h2>
+  <p id="evens-result"></p>
+
+  <script>
+    const numbers = [4, -8, 15, -16, 23, 42, -3];
+
+    const source = document.querySelector('#source');
+    const numberList = document.querySelector('#number-list');
+    const sumResult = document.querySelector('#sum-result');
+    const maxResult = document.querySelector('#max-result');
+    const positivesResult = document.querySelector('#positives-result');
+    const evensResult = document.querySelector('#evens-result');
+
+    source.textContent = `Numbers: ${numbers.join(', ')}`;
+
+    for (let i = 0; i < numbers.length; i++) {
+      const li = document.createElement('li');
+      li.textContent = numbers[i];
+      numberList.appendChild(li);
+    }
+
+    let sum = 0;
+    for (let i = 0; i < numbers.length; i++) {
+      sum += numbers[i];
+    }
+    sumResult.textContent = `Total: ${sum}`;
+
+    let max = numbers[0];
+    for (let i = 1; i < numbers.length; i++) {
+      if (numbers[i] > max) {
+        max = numbers[i];
+      }
+    }
+    maxResult.textContent = `Largest number: ${max}`;
+
+    let positiveCount = 0;
+    for (let i = 0; i < numbers.length; i++) {
+      if (numbers[i] > 0) {
+        positiveCount++;
+      }
+    }
+    positivesResult.textContent = `Positive count: ${positiveCount}`;
+
+    const evens = [];
+    for (let i = 0; i < numbers.length; i++) {
+      if (numbers[i] % 2 === 0) {
+        evens.push(numbers[i]);
+      }
+    }
+    evensResult.textContent = `Even numbers: ${evens.join(', ')}`;
+  </script>
+</body>
+</html>
