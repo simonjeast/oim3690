@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Filters</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 20px;
+      }
+      canvas {
+        border: 1px solid #ccc;
+        margin: 10px;
+      }
+      button {
+        padding: 8px 16px;
+        margin: 5px;
+        font-size: 1em;
+        cursor: pointer;
+      }
+      #rgb-info {
+        display: inline-block;
+        padding: 8px 16px;
+        min-width: 200px;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Image Filters</h1>
+    <div>
+      <canvas id="original-canvas"></canvas>
+      <canvas id="filtered-canvas"></canvas>
+    </div>
+    <div>
+      <button id="btn-red">Red Filter</button>
+      <button id="btn-gray">Grayscale</button>
+      <button id="btn-negative">Negative</button>
+    </div>
+    <h2 id="rgb-info"></h2>
+
+    <script>
+      const image = new Image();
+      image.src = "images/tiger1.jpg";
+
+      const originalCanvas = document.getElementById("original-canvas");
+      const filteredCanvas = document.getElementById("filtered-canvas");
+      const originalCtx = originalCanvas.getContext("2d");
+      const filteredCtx = filteredCanvas.getContext("2d");
+      const rgbInfo = document.getElementById("rgb-info");
+
+      // When the image loads, draw it on the original canvas
+      image.onload = function () {
+        originalCanvas.width = image.width;
+        originalCanvas.height = image.height;
+        filteredCanvas.width = image.width;
+        filteredCanvas.height = image.height;
+
+        originalCtx.drawImage(image, 0, 0);
+      };
+
+      // Color picker: show RGBA value on hover
+      originalCanvas.addEventListener("mousemove", function (event) {
+        const x = event.offsetX;
+        const y = event.offsetY;
+        const pixel = originalCtx.getImageData(x, y, 1, 1);
+        const d = pixel.data;
+
+        const rgba = `rgba(${d[0]}, ${d[1]}, ${d[2]}, ${(d[3] / 255).toFixed(2)})`;
+        rgbInfo.style.background = rgba;
+        rgbInfo.textContent = rgba;
+        rgbInfo.style.color = d[0] + d[1] + d[2] < 380 ? "white" : "black";
+      });
+
+      // Helper: draw image on filtered canvas and return pixel data
+      function getFilteredImageData() {
+        filteredCtx.drawImage(image, 0, 0);
+        return filteredCtx.getImageData(0, 0, filteredCanvas.width, filteredCanvas.height);
+      }
+
+      // Red filter (working example)
+      function redFilter() {
+        const imgData = getFilteredImageData();
+        for (let i = 0; i < imgData.data.length; i += 4) {
+          // Keep red (imgData.data[i]), zero out green and blue
+          imgData.data[i + 1] = 0;
+          imgData.data[i + 2] = 0;
+        }
+        filteredCtx.putImageData(imgData, 0, 0);
+      }
+
+      // TODO: Grayscale filter
+      // Hint: average R, G, B, then set all three to that average
+      function grayscaleFilter() {
+        const imgData = getFilteredImageData();
+        for (let i = 0; i < imgData.data.length; i += 4) {
+          const avg = 
+          (imgData.data[i] + imgData.data[i+1] + imgData.data[i+2])/3;
+          const factor = 1.0;
+        
+          imgData.data[i] = avg*factor; //red
+          imgData.data[i+1] = avg*factor //green
+          imgData.data[i+2] = avg*factor //blue
+        }
+        filteredCtx.putImageData(imgData, 0, 0);
+      }
+
+      function negativeFilter() {
+        const imgData = getFilteredImageData();
+        const data = imgData.data;
+        for (let i = 0; i < data.length; i += 4) {
+          data[i] = 255 - data[i];
+          data[i + 1] = 255 - data[i + 1];
+          data[i + 2] = 255 - data[i + 2];
+        }
+        filteredCtx.putImageData(imgData, 0, 0);
+      }
+
+      // Attach buttons
+      document.getElementById("btn-red").addEventListener("click", redFilter);
+      document.getElementById("btn-gray").addEventListener("click", grayscaleFilter);
+      document.getElementById("btn-negative").addEventListener("click", negativeFilter);
+    </script>
+  </body>
+</html>
