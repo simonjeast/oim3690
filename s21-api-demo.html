@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button>Click</button>
+    <p id="result"></p>
+
+    <script>
+        const btn = document.querySelector("button");
+        const result = document.querySelector("#result");
+
+        async function getRandomWord() {
+            const response = await fetch("https://oim.108122.xyz/words/random");
+            const word = await response.json();
+            console.log(word);
+            result.textContent = word;
+            
+        }
+async function postMessage(text) {
+  const response = await fetch('https://oim.108122.xyz/message', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Token': 'simonsimon'  // your first name x2
+    },
+    body: JSON.stringify({ message: text })
+  });
+  const result = await response.json();
+  console.log(result);
+}
+
+postMessage('Hello from Simon!');        
+        btn.addEventListener("click", postMessage);
+    </script>
+</body>
+</html>
