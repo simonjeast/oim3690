@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Town Explorer</title>
+		<style>
+			* {
+				box-sizing: border-box;
+			}
+
+			body {
+				margin: 0;
+				min-height: 100vh;
+				font-family: "Segoe UI", Tahoma, sans-serif;
+				background: linear-gradient(170deg, #f8fafc, #e2e8f0);
+				color: #0f172a;
+			}
+
+			main {
+				width: min(900px, 100%);
+				margin: 28px auto;
+				padding: 20px;
+			}
+
+			.card {
+				background: #ffffff;
+				border-radius: 14px;
+				padding: 18px;
+				box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+			}
+
+			h1 {
+				margin: 0 0 8px;
+			}
+
+			.subtitle {
+				margin: 0 0 16px;
+				color: #475569;
+			}
+
+			.search-row {
+				display: grid;
+				gap: 8px;
+				margin-bottom: 8px;
+			}
+
+			label {
+				font-weight: 600;
+			}
+
+			input {
+				font: inherit;
+				padding: 10px 12px;
+				border: 1px solid #cbd5e1;
+				border-radius: 10px;
+			}
+
+			#status {
+				margin: 8px 0 10px;
+				min-height: 1.5em;
+				color: #334155;
+			}
+
+			#matchCount {
+				margin: 0;
+				font-weight: 700;
+			}
+
+			#largestTown {
+				margin: 14px 0 8px;
+				padding: 10px 12px;
+				border-radius: 10px;
+				background: #ecfeff;
+				border: 1px solid #99f6e4;
+			}
+
+			ul {
+				margin: 10px 0 0;
+				padding-left: 20px;
+			}
+
+			li {
+				margin: 7px 0;
+			}
+
+			.muted {
+				color: #64748b;
+			}
+		</style>
+	</head>
+	<body>
+		<main>
+			<section class="card">
+				<h1>Massachusetts Town Explorer</h1>
+				<p class="subtitle">Browse and filter towns from the MA towns API.</p>
+
+				<div class="search-row">
+					<label for="searchInput">Search towns by name</label>
+					<input id="searchInput" type="text" placeholder="Type a town name..." />
+				</div>
+
+				<p id="status" aria-live="polite"></p>
+				<p id="matchCount">Matched towns: 0</p>
+				<p id="largestTown" class="muted">Largest town: loading...</p>
+				<ul id="townList"></ul>
+			</section>
+		</main>
+
+		<script>
+			const endpoint = "https://oim.108122.xyz/mass";
+			const searchInput = document.querySelector("#searchInput");
+			const statusText = document.querySelector("#status");
+			const matchCountText = document.querySelector("#matchCount");
+			const largestTownText = document.querySelector("#largestTown");
+			const townList = document.querySelector("#townList");
+
+			let allTowns = [];
+
+			function formatPopulation(value) {
+				return Number(value).toLocaleString("en-US");
+			}
+
+			function renderTownList(towns, options = {}) {
+				const showOnlyFirstTen = options.showOnlyFirstTen ?? false;
+				const visibleTowns = showOnlyFirstTen ? towns.slice(0, 10) : towns;
+
+				townList.innerHTML = "";
+
+				if (visibleTowns.length === 0) {
+					const emptyRow = document.createElement("li");
+					emptyRow.textContent = "No towns found.";
+					townList.appendChild(emptyRow);
+					return;
+				}
+
+				visibleTowns.forEach(function (town) {
+					const item = document.createElement("li");
+					item.textContent = `${town.name} | ${town.county} County | Population: ${formatPopulation(town.population)}`;
+					townList.appendChild(item);
+				});
+			}
+
+			function updateLargestTown(towns) {
+				if (towns.length === 0) {
+					largestTownText.textContent = "Largest town: N/A";
+					return;
+				}
+
+				const largestTown = towns.reduce(function (currentLargest, town) {
+					if (town.population > currentLargest.population) {
+						return town;
+					}
+					return currentLargest;
+				}, towns[0]);
+
+				largestTownText.textContent = `Largest town: ${largestTown.name} (${largestTown.county} County), population ${formatPopulation(largestTown.population)}`;
+			}
+
+			function applyFilter() {
+				const query = searchInput.value.trim().toLowerCase();
+				const filteredTowns = allTowns.filter(function (town) {
+					return town.name.toLowerCase().includes(query);
+				});
+
+				matchCountText.textContent = `Matched towns: ${filteredTowns.length}`;
+				renderTownList(filteredTowns, { showOnlyFirstTen: false });
+			}
+
+			async function loadTowns() {
+				statusText.textContent = "loading...";
+
+				try {
+					const response = await fetch(endpoint);
+
+					if (!response.ok) {
+						throw new Error(`Request failed with status ${response.status}.`);
+					}
+
+					const payload = await response.json();
+
+					if (!payload || !Array.isArray(payload.data)) {
+						throw new Error("Unexpected API response format.");
+					}
+
+					allTowns = payload.data;
+					renderTownList(allTowns, { showOnlyFirstTen: true });
+					matchCountText.textContent = `Matched towns: ${allTowns.slice(0, 10).length} (showing first 10)`;
+					updateLargestTown(allTowns);
+					statusText.textContent = "";
+				} catch (error) {
+					statusText.textContent = `Error: ${error.message}`;
+					matchCountText.textContent = "Matched towns: 0";
+					largestTownText.textContent = "Largest town: unavailable";
+					townList.innerHTML = "";
+				}
+			}
+
+			searchInput.addEventListener("input", applyFilter);
+
+			loadTowns();
+		</script>
+	</body>
+</html>

@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Random Word</title>
+		<style>
+			* {
+				box-sizing: border-box;
+			}
+
+			body {
+				margin: 0;
+				min-height: 100vh;
+				display: grid;
+				place-items: center;
+				padding: 24px;
+				font-family: "Segoe UI", Tahoma, sans-serif;
+				background: linear-gradient(170deg, #f8fafc, #e2e8f0);
+			}
+
+			.card {
+				width: min(580px, 100%);
+				background: #ffffff;
+				border-radius: 16px;
+				padding: 24px;
+				box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
+			}
+
+			h1 {
+				margin: 0 0 8px;
+			}
+
+			p {
+				margin: 0;
+			}
+
+			.buttons {
+				margin-top: 18px;
+				display: flex;
+				flex-wrap: wrap;
+				gap: 10px;
+			}
+
+			button {
+				border: none;
+				border-radius: 10px;
+				padding: 10px 14px;
+				font: inherit;
+				font-weight: 700;
+				cursor: pointer;
+				color: #ffffff;
+				background: #0f766e;
+			}
+
+			button:hover {
+				filter: brightness(1.05);
+			}
+
+			button:disabled {
+				opacity: 0.75;
+				cursor: wait;
+			}
+
+			#status {
+				margin-top: 14px;
+				min-height: 1.5em;
+				color: #334155;
+			}
+
+			#wordOutput {
+				margin-top: 12px;
+				min-height: 1.5em;
+				font-size: 1.25rem;
+				font-weight: 700;
+				color: #0f172a;
+			}
+
+			#wordList {
+				margin-top: 8px;
+				padding-left: 20px;
+			}
+		</style>
+	</head>
+	<body>
+		<main class="card">
+			<h1>Random Word Fetcher</h1>
+			<p>Click to fetch one random word, or fetch five words in a row.</p>
+
+			<div class="buttons">
+				<button id="getWordBtn" type="button">Get Random Word</button>
+				<button id="getFiveBtn" type="button">Get 5 Words</button>
+			</div>
+
+			<p id="status" aria-live="polite"></p>
+			<p id="wordOutput" aria-live="polite"></p>
+			<ul id="wordList"></ul>
+		</main>
+
+		<script>
+			const endpoint = "https://oim.108122.xyz/words/random";
+			const getWordBtn = document.querySelector("#getWordBtn");
+			const getFiveBtn = document.querySelector("#getFiveBtn");
+			const statusText = document.querySelector("#status");
+			const wordOutput = document.querySelector("#wordOutput");
+			const wordList = document.querySelector("#wordList");
+
+			function setLoadingState(isLoading) {
+				getWordBtn.disabled = isLoading;
+				getFiveBtn.disabled = isLoading;
+				statusText.textContent = isLoading ? "loading..." : "";
+			}
+
+			function extractWord(payload) {
+				if (typeof payload === "string") {
+					return payload;
+				}
+
+				if (payload && typeof payload === "object") {
+					if (typeof payload.word === "string") {
+						return payload.word;
+					}
+
+					if (Array.isArray(payload.words) && typeof payload.words[0] === "string") {
+						return payload.words[0];
+					}
+				}
+
+				throw new Error("Unexpected API response format.");
+			}
+
+			async function fetchRandomWord() {
+				const response = await fetch(endpoint);
+
+				if (!response.ok) {
+					throw new Error(`Request failed with status ${response.status}.`);
+				}
+
+				const data = await response.json();
+				return extractWord(data);
+			}
+
+			getWordBtn.addEventListener("click", async function () {
+				setLoadingState(true);
+				wordList.innerHTML = "";
+				wordOutput.textContent = "";
+
+				try {
+					const word = await fetchRandomWord();
+					wordOutput.textContent = word;
+				} catch (error) {
+					wordOutput.textContent = "";
+					statusText.textContent = `Error: ${error.message}`;
+				} finally {
+					if (!statusText.textContent.startsWith("Error:")) {
+						statusText.textContent = "";
+					}
+					setLoadingState(false);
+				}
+			});
+
+			getFiveBtn.addEventListener("click", async function () {
+				setLoadingState(true);
+				wordList.innerHTML = "";
+				wordOutput.textContent = "";
+
+				try {
+					const words = [];
+
+					// Sequential fetches to satisfy the "in a row" bonus requirement.
+					for (let i = 0; i < 5; i += 1) {
+						const word = await fetchRandomWord();
+						words.push(word);
+					}
+
+					words.forEach(function (word) {
+						const listItem = document.createElement("li");
+						listItem.textContent = word;
+						wordList.appendChild(listItem);
+					});
+				} catch (error) {
+					wordList.innerHTML = "";
+					statusText.textContent = `Error: ${error.message}`;
+				} finally {
+					if (!statusText.textContent.startsWith("Error:")) {
+						statusText.textContent = "";
+					}
+					setLoadingState(false);
+				}
+			});
+		</script>
+	</body>
+</html>
